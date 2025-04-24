@@ -1,5 +1,13 @@
 import { useState } from "react";
-import { View, Text, StyleSheet, FlatList } from "react-native";
+import { 
+    View,
+     Text, 
+     StyleSheet, 
+     FlatList, 
+     TouchableOpacity,
+     Modal,
+     TextInput
+     } from "react-native";
 
 const NoteScreen = () => {
     const [notes, setNotes] = useState([
@@ -9,6 +17,10 @@ const NoteScreen = () => {
         // {id: "4", text: "Note Four"},
         // {id: "5", text: "Note Five"}
     ]);
+
+    const [modalVisible, setModalVisible] = useState(false);
+    const [newNote, setNewNote] = useState("");
+
     return( <View style={styles.container}>
           <FlatList 
           data={notes}
@@ -19,6 +31,35 @@ const NoteScreen = () => {
             </View>
           )}
           />
+
+          <TouchableOpacity 
+          style={styles.addButton}
+          onPress={() => setModalVisible(true)}
+          >
+        <Text style={styles.addButtonText}>+ Add Note</Text>
+          </TouchableOpacity>
+          <Modal
+          visible={modalVisible} 
+          animationType="slide"
+          transparent
+          onRequestClose={() => setModalVisible(false)}
+          >
+            <View style={styles.modalOverlay}>
+                <View style={styles.modalContent}>
+                    <Text style={styles.modalTitle}>Add a New Note</Text>
+                    <TextInput
+                    style={styles.input}
+                    placeholder="Enter note..."
+                    placeholderTextColor="#aaa"
+                    value={newNote}
+                    onChangeText={setNewNote}
+                    >
+
+                    </TextInput>
+                </View>
+            </View>
+
+          </Modal>
     </View>)
 }
 
@@ -38,6 +79,21 @@ const styles = StyleSheet.create({
     },
     noteText: {
         fontSize: 16,
+    },
+    addButton: {
+        position: "absolute",
+        bottom: 20,
+        left: 20,
+        right: 20,
+        backgroundColor: "#007bff",
+        padding: 15,
+        borderRadius: 8,
+        alignItems: "center"
+    },
+    addButtonText: {
+        color: "#fff",
+        fontSize: 16,
+        fontWeight: "bold"
     }
 })
 
